@@ -1,4 +1,4 @@
-#%%
+
 
 import numpy as np
 import pandas as pd
@@ -7,7 +7,7 @@ import random
 from matplotlib.pyplot import cm
 import string
 
-#%%
+
 
 def plot_data(df, stat, color):
     xs = df[stat]
@@ -64,13 +64,11 @@ def plot_stat_data_by_std(stat_dfs, title):
             y += 1
 
 
-#%%
 
 csv = r"PATH_TO_DATASET"
 df = pd.read_csv(csv)
 df
 
-#%%
 
 
 for x in range(len(df)):
@@ -103,7 +101,6 @@ for x in range(len(df)):
     df.at[x, 'Age'] = newage
 
 
-#%%
 
 df_means = df.mean()
 print(df_means['MP'])
@@ -116,11 +113,11 @@ for x in range(len(df)):
     df.at[x, 'adj_ORtg'] = adj_ortg
 
 
-#%%
+
 
 df
 
-#%%
+
 
 currentplayer = df.loc[0, 'Name']
 players = [currentplayer]
@@ -134,7 +131,6 @@ while True:
         break
 
 
-#%%
 
 currentteam = df.loc[0, 'Tm']
 teams = [currentteam]
@@ -147,18 +143,12 @@ while True:
     if row == len(df) - 1:
         break
 
-#%%
 
 teams
 
-#%%
 
 target_columns = ['Age', 'GS', 'MP', 'FG', 'FGA', '3P', '3PA', 'FT', 'FTA', 'ORB', 'DRB', 'TRB', 'AST', 'STL', 'BLK', 'TOV', 'PF', 'PTS', 'GmSc', '+/-', 'ORtg', 'DRtg', 'BPM', 'adj_ORtg', 'ORB%', 'DRB%', 'TRB%', 'AST%', 'STL%', 'BLK%', 'TOV%', 'USG%']
 
-
-
-
-#%%
 
 player_summed = pd.DataFrame()
 for stat in target_columns:
@@ -169,21 +159,17 @@ player_summed['PlayerID'] = 0
 player_summed['Games'] = 0
 
 
-#%%
+
 
 for index, row in df.iterrows():
     print(row)
     break
 
-#%%
+
 
 df
 
-#%%
 
-
-
-#%%
 
 PlayerID = 1001
 z = 0
@@ -219,15 +205,9 @@ while True:
 
 
 
-#%%
-
-
-
-#%%
-
 player_summed
 
-#%%
+
 
 team_summed = pd.DataFrame()
 for team in teams:
@@ -235,23 +215,19 @@ for team in teams:
     team_df = team_df.sum()
     team_summed[team] = team_df
 
-#%%
 
 team_summed
 
-#%%
+
 
 league_summed = player_summed.sum()
 
-#%%
 
 league_summed
 
-#%%
 
 target_columns
 
-#%%
 
 player_summed['FG%'] = player_summed['FG'] / player_summed['FGA']
 player_summed['3P%'] = player_summed['3P'] / player_summed['3PA']
@@ -261,8 +237,6 @@ player_summed['eFG%'] = (player_summed['FG'] + (0.5 * player_summed['3P'])) / pl
 
 
 
-#%%
-
 pg_columns = []
 for column in target_columns:
     statname = column + '_pg'
@@ -270,15 +244,6 @@ for column in target_columns:
     player_summed[statname] = player_summed[column] / player_summed['Games']
 
 
-#%% md
-
-
-
-#%%
-
-
-
-#%%
 
 player_summed_means = player_summed.mean()
 player_summed_stdevs = player_summed.std()
@@ -299,8 +264,6 @@ for stat in pg_columns:
     plot_data(normalized_player_summed, stat, next(color))
 
 
-#%%
-
 dfs = data_by_std(normalized_player_summed, 'MP')
 dfs
 big_stat_array = []
@@ -316,7 +279,7 @@ for stat in target_columns:
     filenum = str(x)
     x+=1
 
-#%%
+
 
 big_stat_array = []
 x=0
@@ -331,73 +294,4 @@ for stat in pg_columns:
     filenum = str(x)
     x+=1
 
-#%%
-
-# factor = (2/3) - (0.5 * (league_summed['AST'] / league_summed['FG'])) / (2 * (league_summed['FG'] / league_summed['FT']))
-# VOP = league_summed['PTS'] / (league_summed['FG'] - league_summed['ORB'] + league_summed['TOV'] + 0.44 * league_summed['FTA'])
-# DRB = (league_summed['TRB'] - league_summed['ORB']) / league_summed['TRB']
-
-#%%
-
-# def calc_uPER(factor, VOP, DRB, MP, three_pt, AST, team_AST, team_FG, TOV, FGA, FG, FTA, FT, PF, TRB, ORB, STL, BLK, lg_FT, lg_PF, lg_FTA):
-#     if MP == 0:
-#         return 0
-#     uPER = ((1.0 / MP) *
-#            (three_pt
-#           + (2/3) * AST
-#           + (2 - factor * (team_AST / team_FG)) * FG
-#           + (FT *0.5 * (1 + (1 - (team_AST / team_FG)) + (2/3) * (team_AST / team_FG)))
-#           - VOP * TOV
-#           - VOP * DRB * (FGA - FG)
-#           - VOP * 0.44 * (0.44 + (0.56 * DRB)) * (FTA - FT)
-#           + VOP * (1 - DRB) * (TRB - ORB)
-#           + VOP * DRB * ORB
-#           + VOP * STL
-#           + VOP * DRB * BLK
-#           - PF * ((lg_FT / lg_PF) - 0.44 * (lg_FTA / lg_PF) * VOP)))
-#     print(uPER)
-#     return uPER
-
-#%%
-
-# per_player_stats = ['MP', '3P', 'AST', 'TOV', 'FGA', 'FG', 'FTA', 'FT', 'PF', 'TRB', 'ORB', 'STL', 'BLK']
-
-#%%
-
-# lg_FT = league_summed['FT']
-# lg_PF = league_summed['PF']
-# lg_FTA = league_summed['FTA']
-# player_summed['uPER'] = 0.0
-
-#%%
-
-# per_stat_dict = {}
-# for i in range(len(player_summed)):
-#     try:
-#         for stat in per_player_stats:
-#             per_stat_dict[stat] = player_summed.loc[i, stat]
-#         team = player_summed.loc[i, 'Tm']
-#         team_AST = team_summed.loc['AST', team]
-#         team_FG = team_summed.loc['FG', team]
-#         uPER = calc_uPER(factor, VOP, DRB, per_stat_dict['MP'], per_stat_dict['3P'], per_stat_dict['AST'], team_AST, team_FG,
-#                          per_stat_dict['TOV'], per_stat_dict['FGA'], per_stat_dict['FG'], per_stat_dict['FTA'], per_stat_dict['FT'],
-#                          per_stat_dict['PF'], per_stat_dict['TRB'], per_stat_dict['ORB'], per_stat_dict['STL'], per_stat_dict['BLK'],
-#                          lg_FT, lg_PF, lg_FTA)
-#         player_summed.at[i, 'uPER'] = uPER
-#     except:
-#         player_summed.at[i, 'uPER'] = 0
-
-
-
-#%%
-
-
-
-#%%
-
-# player_summed[player_summed['uPER'] > 0.008]
-
-#%%
-
-# league_summed
 
