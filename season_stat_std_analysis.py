@@ -66,7 +66,7 @@ def plot_stat_data_by_std(stat_dfs, title):
 
 #%%
 
-csv = r"C:\Users\jleus\OneDrive\Documents\NBA Visualization\League2015cleaned.csv"
+csv = r"PATH_TO_DATASET"
 df = pd.read_csv(csv)
 df
 
