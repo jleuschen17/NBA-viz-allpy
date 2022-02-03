@@ -8,7 +8,7 @@ from matplotlib.pyplot import cm
 
 
 
-csv = r"C:\Users\jleus\OneDrive\Documents\CSVS\league2011cleaned.csv"
+csv = r"PATH_TO_DATASET"
 df = pd.read_csv(csv)
 df
 
